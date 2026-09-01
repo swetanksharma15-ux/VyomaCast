@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/favicon.svg" />
+<title>VyomaCast — Real-Time Weather & Forecast</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo" title="VyomaCast Home">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="M4.93 4.93l1.41 1.41"></path>
+            <path d="M17.66 17.66l1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="M6.34 17.66l-1.41 1.41"></path>
+            <path d="M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+        </div>
+        <div class="brand-name">Vyoma<span>Cast</span></div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="html/forecast.html" class="nav-link">Forecast</a></li>
+          <li><a href="html/hourly.html" class="nav-link">Hourly</a></li>
+          <li><a href="html/cities.html" class="nav-link">Cities</a></li>
+          <li><a href="html/details.html" class="nav-link">Details</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions with Autocomplete Search -->
+      <div class="nav-actions">
+        <div class="search-wrapper">
+          <form class="search-form" action="#" role="search">
+            <input type="text" class="search-input" placeholder="🔍 Search any city or location..." aria-label="Search city or location" autocomplete="off" required />
+            <button type="submit" class="search-btn" aria-label="Submit search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </form>
+          <!-- Live Geocoding Autocomplete Dropdown -->
+          <div class="autocomplete-dropdown"></div>
+        </div>
+
+        <!-- Current Location Button -->
+        <button class="btn-icon" id="geolocation-btn" title="Use My Current Location" aria-label="Use My Current Location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+          </svg>
+        </button>
+
+        <!-- Light/Dark Theme Toggle -->
+        <button class="btn-icon" id="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="btn-icon mobile-toggle" id="mobile-menu-toggle" aria-label="Open Mobile Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+      <div class="search-wrapper" style="width: 100%;">
+        <form class="search-form mobile-search" action="#" role="search">
+          <input type="text" class="search-input" placeholder="🔍 Search location..." aria-label="Search location" autocomplete="off" required />
+          <button type="submit" class="search-btn" aria-label="Submit search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </form>
+        <div class="autocomplete-dropdown"></div>
+      </div>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="html/forecast.html" class="nav-link">Forecast</a>
+      <a href="html/hourly.html" class="nav-link">Hourly Weather</a>
+      <a href="html/cities.html" class="nav-link">My Cities & Hubs</a>
+      <a href="html/details.html" class="nav-link">Details & Telemetry</a>
+    </div>
+  </header>
+
+
+  <main class="main-content" id="home-content-container">
+    <div class="container">
+      
+      <!-- Hero Section -->
+      <section class="hero-weather-grid">
+        <!-- Hero Main Weather Card -->
+        <div class="card hero-main-card">
+          <div class="hero-header-info">
+            <div class="hero-location-wrap">
+              <div class="hero-city-row">
+                <span class="hero-city-name" id="hero-city">Delhi</span>
+                <span class="hero-country-code" id="hero-country">IN</span>
+              </div>
+              <div class="hero-date-time" id="hero-datetime">Live Weather Report</div>
+            </div>
+            <span class="badge badge-primary">Live Radar</span>
+          </div>
+
+          <div class="hero-temp-section">
+            <div class="hero-temp-left">
+              <div class="hero-icon-wrap">
+                <img src="assets/sunny.svg" alt="Weather condition" id="hero-icon" />
+              </div>
+              <div class="hero-temp-large" id="hero-temp">32°C</div>
+            </div>
+
+            <div class="hero-condition-details">
+              <div class="hero-condition-text" id="hero-condition">Clear Sky</div>
+              <div class="hero-feels-like" id="hero-feels-like">Feels like 34°C</div>
+              <div class="hero-high-low">
+                <span class="temp-high" id="hero-temp-high">H: 35°C</span>
+                <span class="temp-low" id="hero-temp-low">L: 27°C</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 0.95rem; color: var(--text-secondary);" id="hero-desc">
+            Clear blue skies with pleasant conditions.
+          </div>
+        </div>
+
+        <!-- Hero Side Card (Sparkline & Quick Actions) -->
+        <div class="card hero-side-card">
+          <div class="card-header">
+            <div class="card-title">
+              <img src="assets/thermometer.svg" alt="Sparkline" />
+              24-Hour Temp Trend
+            </div>
+            <span class="badge badge-primary">Hourly</span>
+          </div>
+
+          <div class="sparkline-container">
+            <canvas id="sparkline-canvas" class="sparkline-canvas"></canvas>
+          </div>
+
+          <div class="hero-actions-row">
+            <a href="html/forecast.html" class="btn btn-primary">
+              View Forecast
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <a href="html/details.html" class="btn btn-secondary">
+              Details
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8 Key Metrics Cards Grid -->
+      <section class="section-title-wrap">
+        <h2 class="section-heading">Current Conditions Overview</h2>
+        <a href="html/details.html" class="footer-link" style="font-size: 0.9rem; font-weight: 600; color: var(--accent-primary);">Full Telemetry →</a>
+      </section>
+
+      <section class="metrics-grid">
+        <!-- 1. Humidity -->
+        <div class="card metric-card">
+          <div class="metric-top">
+            <span class="metric-name">Humidity</span>
+            <div class="metric-icon-box"><img src="assets/humidity.svg" alt="Humidity" /></div>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-value" id="metric-humidity-val">54%</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="humidity-progress-bar" style="width: 54%;"></div>
+          </div>
+          <div class="metric-footer">Comfort level is optimal</div>
+        </div>
+
+        <!-- 2. Wind Speed -->
+        <div class="card metric-card">
+          <div class="metric-top">
+            <span class="metric-name">Wind Speed</span>
+            <div class="metric-icon-box"><img src="assets/wind.svg" alt="Wind" /></div>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-value" id="metric-wind-val">14</span>
+            <span class="metric-unit">km/h</span>
+          </div>
+          <div class="metric-footer">Gentle breeze</div>
+        </div>
+
+        <!-- 3. Pressure -->
+        <div class="card metric-card">
+          <div class="metric-top">
+            <span class="metric-name">Pressure</span>
+            <div class="metric-icon-box"><img src="assets/pressure.svg" alt="Pressure" /></div>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-value" id="metric-pressure-val">1012</span>
+            <span class="metric-unit">hPa</span>
+          </div>
+          <div class="metric-footer">Normal barometric pressure</div>
+        </div>
+
+        <!-- 4. Visibility -->
+        <div class="card metric-card">
+          <div class="metric-top">
+            <span class="metric-name">Visibility</span>
+            <div class="metric-icon-box"><img src="assets/visibility.svg" alt="Visibility" /></div>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-value" id="metric-visibility-val">10.0</span>
+            <span class="metric-unit">km</span>
+          </div>
+          <div class="metric-footer">Clear road visibility</div>
+        </div>
+
+        <!-- 5. UV Index -->
+        <div class="card metric-card">
+          <div class="metric-top">
+            <span class="metric-name">UV Index</span>
+            <div class="metric-icon-box"><img src="assets/uv.svg" alt="UV" /></div>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-value" id="metric-uv-val">7</span>
+            <span class="metric-unit">High</span>
+          </div>
+          <div class="metric-footer">Sun protection recommended</div>
+        </div>
+
+        <!-- 6. Sunrise & Sunset -->
+        <div class="card metric-card">
+          <div class="metric-top">
+            <span class="metric-name">Sun Schedule</span>
+            <div class="metric-icon-box"><img src="assets/sunrise.svg" alt="Sun" /></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 0.25rem;">
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Sunrise</div>
+              <div style="font-size: 1.1rem; font-weight: 700;" id="metric-sunrise-time">05:45 AM</div>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Sunset</div>
+              <div style="font-size: 1.1rem; font-weight: 700;" id="metric-sunset-time">06:30 PM</div>
+            </div>
+          </div>
+          <div class="metric-footer">Daylight schedule</div>
+        </div>
+
+        <!-- 7. Cloudiness -->
+        <div class="card metric-card">
+          <div class="metric-top">
+            <span class="metric-name">Cloudiness</span>
+            <div class="metric-icon-box"><img src="assets/cloudy.svg" alt="Clouds" /></div>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-value" id="metric-clouds-val">20%</span>
+          </div>
+          <div class="metric-footer">Mostly clear skies</div>
+        </div>
+
+        <!-- 8. Dew Point -->
+        <div class="card metric-card">
+          <div class="metric-top">
+            <span class="metric-name">Dew Point</span>
+            <div class="metric-icon-box"><img src="assets/humidity.svg" alt="Dew point" /></div>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-value" id="metric-dew-val">21°C</span>
+          </div>
+          <div class="metric-footer">Comfortable air moisture</div>
+        </div>
+      </section>
+
+      <!-- Quick Navigation Cards Banner -->
+      <section class="quick-nav-banner">
+        <a href="html/forecast.html" class="quick-nav-card">
+          <div class="quick-nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="quick-nav-text">
+            <h4>7-Day Forecast</h4>
+            <p>High/low trends & daypart breakdowns</p>
+          </div>
+        </a>
+
+        <a href="html/hourly.html" class="quick-nav-card">
+          <div class="quick-nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div class="quick-nav-text">
+            <h4>24-Hour Timeline</h4>
+            <p>Hourly rain chance, temp & wind curves</p>
+          </div>
+        </a>
+
+        <a href="html/cities.html" class="quick-nav-card">
+          <div class="quick-nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <div class="quick-nav-text">
+            <h4>My Cities & Hubs</h4>
+            <p>Monitor saved favorite locations</p>
+          </div>
+        </a>
+      </section>
+
+    </div>
+  </main>
+
+  
+  <!-- Global Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <div class="logo-icon" style="width: 28px; height: 28px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+            <circle cx="12" cy="12" r="4"></circle>
+          </svg>
+        </div>
+        <span><strong>VyomaCast</strong> • Real-Time Weather, Simplified.</span>
+      </div>
+      <div style="font-size: 0.85rem; color: var(--text-muted);">
+        Developed by Swetank
+      </div>
+      <div class="footer-links">
+        <a href="index.html" class="footer-link">Home</a>
+        <a href="html/forecast.html" class="footer-link">Forecast</a>
+        <a href="html/hourly.html" class="footer-link">Hourly</a>
+        <a href="html/cities.html" class="footer-link">Cities</a>
+        <a href="html/details.html" class="footer-link">Details</a>
+      </div>
+    </div>
+  </footer>
+
+
+    
+  
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
