@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="../assets/favicon.svg" />
+<title>My Cities & Global Hubs — VyomaCast</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="brand-logo" title="VyomaCast Home">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="M4.93 4.93l1.41 1.41"></path>
+            <path d="M17.66 17.66l1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="M6.34 17.66l-1.41 1.41"></path>
+            <path d="M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+        </div>
+        <div class="brand-name">Vyoma<span>Cast</span></div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html" class="nav-link">Home</a></li>
+          <li><a href="forecast.html" class="nav-link">Forecast</a></li>
+          <li><a href="hourly.html" class="nav-link">Hourly</a></li>
+          <li><a href="cities.html" class="nav-link active">Cities</a></li>
+          <li><a href="details.html" class="nav-link">Details</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="search-wrapper">
+          <form class="search-form" action="#" role="search">
+            <input type="text" class="search-input" placeholder="🔍 Search any location..." aria-label="Search city or location" autocomplete="off" required />
+            <button type="submit" class="search-btn" aria-label="Submit search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </form>
+          <div class="autocomplete-dropdown"></div>
+        </div>
+
+        <button class="btn-icon" id="geolocation-btn" title="Use My Current Location" aria-label="Use My Current Location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+          </svg>
+        </button>
+
+        <button class="btn-icon" id="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <button class="btn-icon mobile-toggle" id="mobile-menu-toggle" aria-label="Open Mobile Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+      <div class="search-wrapper" style="width: 100%;">
+        <form class="search-form mobile-search" action="#" role="search">
+          <input type="text" class="search-input" placeholder="🔍 Search location..." aria-label="Search location" autocomplete="off" required />
+          <button type="submit" class="search-btn" aria-label="Submit search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </form>
+        <div class="autocomplete-dropdown"></div>
+      </div>
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="forecast.html" class="nav-link">Forecast</a>
+      <a href="hourly.html" class="nav-link">Hourly Weather</a>
+      <a href="cities.html" class="nav-link">My Cities & Hubs</a>
+      <a href="details.html" class="nav-link">Details & Telemetry</a>
+    </div>
+  </header>
+
+  <main class="main-content" id="cities-content-container">
+    <div class="container">
+      
+      <div class="page-header">
+        <h1 class="page-title">
+          <span>My Cities & Global Hubs</span>
+        </h1>
+        <p class="page-subtitle">Save and monitor live weather for your favorite personal cities and major worldwide metropolitan hubs.</p>
+      </div>
+
+      <!-- User's Saved Cities Section -->
+      <section class="cities-section">
+        <div class="section-title-wrap">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            My Saved Locations
+            <span class="badge badge-primary" id="favorites-count">3 saved</span>
+          </h2>
+          <button class="btn btn-primary" id="add-current-fav-btn">
+            <span>＋</span> Save Current City
+          </button>
+        </div>
+
+        <div class="cities-grid" id="favorites-grid">
+          <!-- Dynamically populated by cities.js -->
+        </div>
+      </section>
+
+      <!-- Popular Global Metropolitan Hubs -->
+      <section class="cities-section">
+        <div class="section-title-wrap">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            Featured Global Hubs
+          </h2>
+        </div>
+
+        <div class="cities-grid" id="popular-cities-grid">
+          <!-- Dynamically populated with London, Tokyo, New York, Dubai, Sydney, Paris by cities.js -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
+        <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-primary);">Vyoma<span>Cast</span></div>
+        <p style="font-size: 0.85rem; margin-top: 0.25rem;">"Real-Time Weather, Simplified."</p>
+        <p style="font-size: 0.8rem; margin-top: 0.35rem; color: var(--text-muted);">Developed by Swetank</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="../index.html" class="footer-link">Home</a>
+        <a href="forecast.html" class="footer-link">Forecast</a>
+        <a href="hourly.html" class="footer-link">Hourly</a>
+        <a href="cities.html" class="footer-link">Cities</a>
+        <a href="details.html" class="footer-link">Telemetry</a>
+      </div>
+    </div>
+  </footer>
+
+    
+  
+  <script src="../js/api.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/pages.js"></script>
+</body>
+</html>
